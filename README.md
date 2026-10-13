@@ -121,12 +121,3 @@ python -m pytest
 
 SSP126 이외 시나리오는 학습/정규화로 열지 않습니다. 추론 condition 생성에 평가 GT를
 쓰지 않았음을 확인한 뒤 공식 scorer로 별도 평가해야 합니다.
-
-## 출처
-
-SPF: [stanfordmlgroup/spf](https://github.com/stanfordmlgroup/spf), 위 pinned commit.
-원래 모델/flow/Euler 및 두 TRAIN 보조 손실 식을 유지하면서 scenario, 경로,
-학습 runner와 공개용 입출력만 정리했습니다.
-원래 4-scenario 배치의 크기 고정 assertion/epoch 번호는 SSP126 1,031개월에 맞게
-바뀌며, 마지막 작은 batch는 padding/중복 없이 재분배합니다.
-기존 서버 frozen 소스/결과는 수정하지 않습니다.
