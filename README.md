@@ -11,19 +11,15 @@ SFNO 및 DiffESM은 포함하지 않습니다. 모델 데이터, 가중치, 생�
   rain-budget 보조 손실 3,000 updates. 총 27,000 updates입니다.
 - 4개 GPU, global month batch 24, 월 길이별 배치, Euler 30 steps와 마지막
   2 steps의 truncated gradient, 원래 손실 식/가중치를 유지합니다.
-- GT 평균/표준편차 보정, affine/least-squares 보정, GT로 시드 선택,
-  일별 출력 clipping/projection은 제공하지 않습니다.
 - 26개 ensemble은 각 member의 **연간 지수를 먼저 계산한 뒤 지수 평균**입니다.
   일별 날씨 평균의 지수나 member 점수 평균이 아닙니다.
 
-## 중요한 조건 입력 구분
+## 조건 입력
 
-이 모델은 forcing-only 미래 예측기가 아니라 **월별 4-field 조건 → 일별 생성기**입니다.
-SSP126 TRAIN의 월평균을 TRAIN 조건으로 계산하는 것은 그대로입니다.
-그러나 추론 코드가 평가 정답에서 월평균을 만들거나 읽는 경로는 제거했습니다.
-추론 조건은 별도의 월별 예측 모델 또는 사용자가 정당하게 확보한 독립 입력으로
-제공해야 하며, provenance JSON으로 출처를 기록합니다.
-독립 월별 조건 모델 자체는 이 저장소에 없습니다.
+이 모델은 **월별 4-field 조건 → 일별 생성기**입니다.
+학습 조건은 SSP126 학습 데이터의 월평균입니다.
+추론 시에는 외부 월별 조건 입력과 입력 메타데이터 JSON을 제공합니다.
+월별 조건 생성 모델 자체는 이 저장소에 포함되어 있지 않습니다.
 
 ## 설치
 
@@ -53,7 +49,6 @@ Upstream forward의 단일 no-grad 구문을 gradient-enabled 문맥으로 바�
 정적 AR6 geometry NPZ는 `mask`(int, 192×288, ocean=-1, land regions 46개),
 `lat`, `lon`으로 구성하고 NetCDF 좌표와 정확히 같아야 합니다.
 실험에서 사용한 동일한 정적 region mask를 별도로 제공하세요.
-이 geometry에 평가 정답이나 GT 통계는 필요하지 않습니다.
 
 ```bash
 mkdir -p data runs
@@ -92,13 +87,8 @@ extreme/budget=2e-5입니다. stage 중간 재개도 `--resume`을 쓰되 새 ou
 
 외부 monthly condition NPZ의 필드는 `monthly`(N,4,192,288; 물리 단위),
 `days`(N; 28/30/31), `year`, `month`, `lat`, `lon`입니다.
-별도 provenance JSON은 예를 들어 다음과 같습니다.
-
-```json
-{"source": "Independent monthly predictor trained on SSP126 only", "uses_evaluation_targets": false}
-```
-
-이 선언이 실제 출처와 일치하는지 사용자가 확인해야 합니다.
+입력 메타데이터는 `--condition-provenance` JSON으로 전달합니다.
+필수 필드는 [sample.py](spf_ssp126/sample.py)에 정의되어 있습니다.
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 python -m spf_ssp126.sample \
@@ -119,5 +109,5 @@ python -m spf_ssp126.ensemble --count 26 --output outputs/ensemble_annual.npz \
 python -m pytest
 ```
 
-SSP126 이외 시나리오는 학습/정규화로 열지 않습니다. 추론 condition 생성에 평가 GT를
-쓰지 않았음을 확인한 뒤 공식 scorer로 별도 평가해야 합니다.
+SSP126 이외 시나리오는 학습/정규화로 열지 않습니다.
+결과는 공식 scorer로 별도 평가할 수 있습니다.
