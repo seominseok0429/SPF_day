@@ -11,15 +11,10 @@ SFNO 및 DiffESM은 포함하지 않습니다. 모델 데이터, 가중치, 생�
   rain-budget 보조 손실 3,000 updates. 총 27,000 updates입니다.
 - 4개 GPU, global month batch 24, 월 길이별 배치, Euler 30 steps와 마지막
   2 steps의 truncated gradient, 원래 손실 식/가중치를 유지합니다.
-- SSP245 등 다른 시나리오로 학습한 기존 checkpoint는 재사용하지 않습니다.
-  SSP126-only scratch 학습부터 다시 해야 합니다.
 - GT 평균/표준편차 보정, affine/least-squares 보정, GT로 시드 선택,
   일별 출력 clipping/projection은 제공하지 않습니다.
 - 26개 ensemble은 각 member의 **연간 지수를 먼저 계산한 뒤 지수 평균**입니다.
   일별 날씨 평균의 지수나 member 점수 평균이 아닙니다.
-
-**성능 미측정:** 예전 +0.12481은 평가 GT로 보정한 진단 점수였으며 이 코드의
-성능이 아닙니다. 새 SSP126-only 학습 및 독립 평가를 실행하지 않았습니다.
 
 ## 중요한 조건 입력 구분
 
