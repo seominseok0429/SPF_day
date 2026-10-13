@@ -1,0 +1,19 @@
+{
+  "core.py": {
+    "predict": "ced3687df23ec1cb5c97d95e0d3ce742301c94f791feb09da80d357f5976fda9",
+    "flow_loss": "304fc713915c4481b75e94e59d2a80973ec9f9176c9af995f7308795431b6831",
+    "sample": "cd951896fbbf62a8f577b616c67e3854283d6c293e7c2b91c464ee4c4f2e5414"
+  },
+  "extreme_loss.py": {
+    "weighted_mse": "bb0fd92b409140d6ef64e97bcfa6e48a915a24a7f90643a5ce7e73324c6be26f",
+    "AuxLoss.physical": "3a8df26cd4037d52ac385cb6447ff701a5d5b62739f7907d77dc95638faddda9",
+    "AuxLoss.features": "684fd9f74197ee490a7aca6cba5e7d86708c39704247126949fe3a649fbf7d00",
+    "AuxLoss.forward": "8e82940694f9a358910045bc351be664d15a45cf43c595c1e073c043be3dcf83",
+    "generated_with_tail_grad": "99f1fb584d4ecefc4ae106199a5b9125dd0245b3779242d8921d0b7f85aa4436"
+  },
+  "budget_loss.py": {
+    "AuxLoss.rain_features": "b8601987e4fe01f8f6d795ded9d3fc89898bcdec6808927a4165b0f49a2bde9f",
+    "AuxLoss.forward": "4a378475db1d43f7fcce1a6b2b69133f993e72df26ec66a623a4778fef069d75",
+    "Objective.forward": "379185d7fff1f8c9be79219b344d7b4f1b583ee63ac383bb74fb6a936a1a6137"
+  }
+}

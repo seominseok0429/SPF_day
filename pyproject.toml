@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spf-ssp126-only"
+version = "0.1.0"
+description = "SSP126-only single-stage month-conditioned SPF without GT post-calibration"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2,<3", "torch>=2.5,<3", "netCDF4>=1.7,<2"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[tool.setuptools.packages.find]
+include = ["spf_ssp126*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
